@@ -1,27 +1,35 @@
-<h1>Users#new</h1>
-<%= form_with model: @user do |f| %>
-  <% if @user.errors.any? %>
-    <div>
-      <ul>
-        <% @user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 class="title">Register User</h1>
     </div>
-  <% end %>
-  <div>
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <div class="col">
+      <%= form_with model: @user do |f| %>
+        <% if @user.errors.any? %>
+          <div>
+            <ul>
+              <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <div>
+          <%= f.label :email %><br>
+          <%= f.text_field :email %>
+        </div>
+        <div>
+          <%= f.label :password %><br>
+          <%= f.password_field :password %>
+        </div>
+        <div>
+          <%= f.label :password_confirmation %><br>
+          <%= f.password_field :password_confirmation %>
+        </div>
+        <p>
+          <%= f.submit :submit, class: 'submit' %>
+        </p>
+      <% end %>
+    </div>
   </div>
-  <div>
-    <%= f.label :password %><br>
-    <%= f.password_field :password %>
-  </div>
-  <div>
-    <%= f.label :password_confirmation %><br>
-    <%= f.password_field :password_confirmation %>
-  </div>
-  <p>
-    <%= f.submit %>
-  </p>
-<% end %>
+</div>

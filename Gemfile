@@ -33,6 +33,7 @@ gem "redis", ">= 4.0.1"
 
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'i18n', '~> 1.14', '>= 1.14.1'
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -49,6 +50,7 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
+  gem 'pry', '~> 0.14.2'
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
 end

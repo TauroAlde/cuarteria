@@ -98,7 +98,7 @@ body {
 
 .login__icon {
 	position: absolute;
-	top: 30px;
+	top: 9px;
 	color: #7875B5;
 }
 
@@ -168,7 +168,7 @@ body {
 }
 
 .social-login__icon {
-	padding: 20px 10px;
+	padding: 20px;
 	color: #fff;
 	text-decoration: none;
 	text-shadow: 0px 0px 8px #7875B5;

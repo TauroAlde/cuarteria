@@ -1,21 +1,22 @@
 <div class="container">
 	<div class="screen">
 		<div class="screen__content">
-			<form class="login">
+      <%= form_with model: @user, url: sign_in_index_path, class: "login" do |f| %>
 				<div class="login__field">
-					<i class="login__icon fas fa-user"></i>
-					<input type="text" class="login__input" placeholder="User name / Email">
+          <i class="fas fa-user"></i>
+          <%= f.label :email, class: "login__icon" %>
+          <%= f.text_field :email, class: "login__input", placeholder: "Email" %>
 				</div>
 				<div class="login__field">
-					<i class="login__icon fas fa-lock"></i>
-					<input type="password" class="login__input" placeholder="Password">
+          <i class="fas fa-lock"></i>
+          <%= f.label :password, class: "login__icon" %>
+          <%= f.password_field :password, class: "login__input", placeholder: "Password" %>
 				</div>
 				<button class="button login__submit">
-					<span class="button__text">Log In Now</span>
-					<i class="button__icon fas fa-chevron-right"></i>
+           <%= link_to "Log In Now", users_path %>
 				</button>
-        <%= link_to "Create new user", users_new_path %>
-			</form>
+        <%= link_to "Create new user", new_user_path %>
+      <% end %>
 			<div class="social-login">
 				<h3>log in via</h3>
 				<div class="social-icons">

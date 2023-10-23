@@ -1,0 +1,13 @@
+es-MX:
+  users:
+    create:
+      user_created: 'Usuario creado'
+  activerecord:
+      errors:
+        models:
+          user:
+            attributes:
+              email:
+                taken: 'El correo ya ha sido tomado'
+              password_confirmation:
+                confirmation: 'no coincide con la contraseña'

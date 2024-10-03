@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  get 'dashboard/index'
+  devise_for :users
+  root to: 'dashboard#index'
   resources :sign_in, only: [:new, :create]
   resources :users, only: [:index, :new, :create]
-
-  root to: "sign_in#index"
+  resources :dashboard, only: [:index, :new, :create]
+  resources :consultations, only: [:index, :new, :create]
 end

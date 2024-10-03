@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Cuarteria</title>
+    <title>Tu Aplicación</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,24 +11,11 @@
   </head>
 
   <body>
-    <% flash.each do |type, msgs| %>
-      <div>
-        <% if type == 'alert' %>
-          <% msgs.each do | msg| %>
-            <label>
-              <input type="checkbox" class="alertCheckbox" autocomplete="off" />
-              <div class="alert-msg <%= type %>">
-                <span class="alertClose">X</span>
-                <span class="alertText"> <%= msg %>
-                <br class="clear"/></span>
-              </div>
-            </label>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
-
-    <%= yield %>
+    <div class="container-fluid ms-4">
+      <%# <p class="notice"><%= notice %></p>
+      <%# <p class="alert"><%= alert %></p>
+      <%= yield %>
+    </div>
   </body>
 </html>
 

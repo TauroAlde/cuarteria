@@ -1,2 +1,18 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<div class="dashboard-container">
+  <aside class="sidebar">
+    <nav>
+      <ul>
+        <%= content_tag(:li, link_to('Consultas', consultations_path)) if current_user&.admin? %>
+        <li><%= link_to 'Analytics', '#' %></li>
+        <li><%= link_to 'Reports', '#' %></li>
+        <li><%= link_to 'Settings', '#' %></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <h1>Dashboard</h1>
+    <p>Bienvenido a tu dashboard. Selecciona una opción del sidebar para comenzar.</p>
+    <!-- Agrega aquí el contenido principal de tu dashboard -->
+  </main>
+</div>

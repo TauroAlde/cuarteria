@@ -1,7 +1,10 @@
 class DashboardController < ApplicationController
-  def index
-    return render 'dashboard/admin' if current_user.role
+  before_action :authenticate_user!
 
-    render 'dasboard'
+  def index
+    #redirect_to consultations_path if current_user.admin?
   end
+
+  private
+
 end

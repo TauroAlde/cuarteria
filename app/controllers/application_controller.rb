@@ -1,8 +1,6 @@
-class ApplicationController < ActionController::Base
-  helper_method :current_user
+  class ApplicationController < ActionController::Base
 
-  def current_user
-    # If session[:user_id] is nil, set it to nil, otherwise find the user by id.
-    @current_user ||= session[:user_id] && User.find_by(id: session[:user_id])
+  before_action do
+    I18n.locale = :es # Or whatever logic you use to choose.
   end
 end

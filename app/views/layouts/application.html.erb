@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Cuarteria</title>
+    <title>App</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <link rel="icon"  type="image/png" href="/app-redevelopment.png"/>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <% flash.each do |type, msg| %>
-      <div>
-        <%= msg %>
-      </div>
-    <% end %>
-
-    <%= yield %>
+    <div class="container-fluid ms-4">
+      <%# <p class="notice"><%= notice %></p>
+      <%# <p class="alert"><%= alert %></p>
+      <%= yield %>
+    </div>
   </body>
 </html>

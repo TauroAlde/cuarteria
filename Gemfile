@@ -33,6 +33,7 @@ gem "redis", ">= 4.0.1"
 
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'i18n', '~> 1.14', '>= 1.14.1'
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -47,8 +48,17 @@ gem "bootsnap", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
+gem "devise"
+gem 'devise-i18n'
+
+gem 'httparty'
+
+gem 'bootstrap', '~> 5.3.0'
+
+gem 'sassc-rails'
 
 group :development, :test do
+  gem 'pry', '~> 0.14.2'
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
 end

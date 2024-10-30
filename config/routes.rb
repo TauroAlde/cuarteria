@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   resources :user_profiles, only: [:index, :edit, :update]
   resources :dashboard, only: [:index, :new, :create]
   resources :consultations, only: [:index, :new, :create]
+  resources :settings, only: [:index, :new, :create]
+  resources :quotations, only: [:index, :show, :new]
 end

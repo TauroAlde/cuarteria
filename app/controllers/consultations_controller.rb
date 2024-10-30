@@ -1,7 +1,7 @@
 class ConsultationsController < ApplicationController
+  before_action :authenticate_user!
   require 'httparty'
 
-  before_action :authenticate_user!
 
   BASE_API_URL = 'https://api-demo.skydropx.com/v1/consignment_notes/categories'
 

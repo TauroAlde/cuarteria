@@ -1,0 +1,43 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-12">
+      <!-- Profile Settings-->
+      <div class="col-lg-12 pb-5">
+        <%= form_with(model: @setting, local: true) do |form| %>
+          <div class="row">
+            <div class="col-md-6 p-2">
+              <div class="form-group">
+                <label for="setting_app_name">App Name</label>
+                <%= form.text_field :app_name, class: "form-control", id: "account-fn", required: true %>
+              </div>
+            </div>
+            <div class="col-md-6 p-2">
+              <div class="form-group">
+                <label for="setting_api_key">Api Key</label>
+                <%= form.text_field :api_key, class: "form-control", id: "account-email" %>
+              </div>
+            </div>
+            <div class="col-md-6 p-2">
+              <div class="form-group">
+                <label for="setting_secret_key">Secret Key</label>
+                <%= form.text_field :secret_key, class: "form-control", id: "account-pass" %>
+              </div>
+            </div>
+            <div class="col-md-6 p-2">
+              <div class="form-group">
+                <label for="setting_token">Token</label>
+                <%= form.text_field :token, class: "form-control", id: "account-confirm-pass" %>
+              </div>
+            </div>
+            <div class="col-12">
+              <hr class="mt-2 mb-3">
+              <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <%= form.submit "Create Setting", class: "btn btn-style-1 btn-primary" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

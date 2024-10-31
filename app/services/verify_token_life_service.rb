@@ -1,13 +1,14 @@
-# app/services/token_generator_service.rb
+# app/services/verify_token_life_service.rb
 require 'net/http'
 require 'json'
 
-class TokenGeneratorService
-  API_URL = 'https://sb-app.soloenvios.com/api/v1/oauth/token'
+class VerifyTokenLifeService
+  API_URL = 'https://sb-app.soloenvios.com/api/v1/oauth/introspect'
 
-  def initialize(client_id, client_secret)
+  def initialize(client_id, client_secret, client_token)
     @client_id = client_id
     @client_secret = client_secret
+    @client_token = client_token
   end
 
   def call
@@ -23,15 +24,19 @@ class TokenGeneratorService
     http.use_ssl = true
 
     request = Net::HTTP::Post.new(uri.path, { 'Content-Type' => 'application/json' })
-    request.body = { scope: "default", grant_type: "client_credentials", client_id: @client_id, client_secret: @client_secret }.to_json
+    request.body = {
+      client_id: @client_id,
+      client_secret: @client_secret,
+      token: @client_token,
+      token_type_hint: "access_token"
+    }.to_json
 
     http.request(request)
   end
 
   def handle_response(response)
     if response.is_a?(Net::HTTPSuccess)
-      body = JSON.parse(response.body)
-      "#{body["token_type"]} #{body["access_token"]}"
+      JSON.parse(response.body)["active"]
     else
       raise "Error generating token: #{response.message}"
     end

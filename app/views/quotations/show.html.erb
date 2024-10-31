@@ -1,31 +1,33 @@
-<table class="table table-bordered">
+<table class="table">
   <thead>
     <tr>
-      <th>Success</th>
-      <th>Rate Type</th>
-      <th>Provider Name</th>
-      <th>Provider Service Name</th>
-      <th>Provider Service Code</th>
-      <th>Status</th>
-      <th>Currency Code</th>
-      <th>Cost</th>
-      <th>Amount</th>
-      <th>Total</th>
-      <th>Days</th>
-      <th>Insurable</th>
-      <th>Has Own Agreement</th>
-      <th>Own Agreement Amount</th>
-      <th>Extra Fees</th>
-      <th>Zone</th>
-      <th>Country Code</th>
-      <th>Plan Type</th>
-      <th>Error Messages</th>
+      <th scope="col" hidden>id</th>
+      <th scope="col">Rate Type</th>
+      <th scope="col">Provider Name</th>
+      <th scope="col">Provider Service Name</th>
+      <th scope="col">Provider Service Code</th>
+      <th scope="col">Status</th>
+      <th scope="col">Currency Code</th>
+      <th scope="col">Cost</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Total</th>
+      <th scope="col">Days</th>
+      <th scope="col">Insurable</th>
+      <th scope="col" hidden>Has Own Agreement</th>
+      <th scope="col" hidden>Own Agreement Amount</th>
+      <th scope="col">Extra Fees</th>
+      <th scope="col">Zone</th>
+      <th scope="col">Country Code</th>
+      <th scope="col">Plan Type</th>
+      <th scope="col">Error Messages</th>
+      <th scope="col">Select carrier</th>
     </tr>
   </thead>
   <tbody>
     <% @get_quotatoin_response["rates"].each do |rate| %>
       <% next if rate["success"] == false %>
       <tr>
+        <td hidden scope="row"><%= rate["id"] %></td>
         <td><%= rate["rate_type"] %></td>
         <td><%= rate["provider_name"] %></td>
         <td><%= rate["provider_service_name"] %></td>
@@ -37,14 +39,30 @@
         <td><%= rate["total"] %></td>
         <td><%= rate["days"] %></td>
         <td><%= rate["insurable"] %></td>
-        <td><%= rate["has_own_agreement"] %></td>
-        <td><%= rate["own_agreement_amount"] %></td>
+        <td hidden><%= rate["has_own_agreement"] %></td>
+        <td hidden><%= rate["own_agreement_amount"] %></td>
         <td><%= rate["extra_fees"] %></td>
         <td><%= rate["zone"] %></td>
         <td><%= rate["country_code"] %></td>
         <td><%= rate["plan_type"] %></td>
         <td><%= rate["error_messages"] %></td>
+        <td><%= check_box_tag "selected_rates[]", rate["id"], false, onclick: "toggleCheckbox(this)" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<div class="col-lg-12">
+  <button type="button" class="btn btn-primary">
+    <a class="nav-link active" aria-current="page" href="<%= quotations_path %>">
+      Back
+    </a>
+  </button>
+</div>
+<div class="col-lg-12">
+  <%= form_tag quotations_path, method: :post do %>
+    <%= hidden_field_tag "selected_rates", params[:selected_rates] %>
+    <button type="submit" class="btn btn-primary">
+      Select Carriers
+    </button>
+  <% end %>
+</div>

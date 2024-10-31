@@ -5,7 +5,8 @@ class QuotationsController < ApplicationController
   require 'uri'
   require 'json'
 
-  TOKEN = 'Bearer MqTuDi74uTs9XviMe7ipPvlfYnyk8y2Qb7xwSlj4lIM'
+  before_action :verify_token
+  before_action :soloenvios_setting
 
 
   def index
@@ -13,15 +14,11 @@ class QuotationsController < ApplicationController
   end
 
   def show
-    binding.pry
     @get_quotatoin_response = JSON.parse(get_quotation(params["quotation_id"]).body)
 
     while !@get_quotatoin_response["is_completed"] do
-      @get_quotatoin_response = JSON.parse(get_quotation(quotation_id).body)
+      @get_quotatoin_response = JSON.parse(get_quotation(params["quotation_id"]).body)
     end
-
-    flash[:notice] = "Quotation successfully generated."
-    @get_quotatoin_response
   end
 
   def new
@@ -89,7 +86,7 @@ class QuotationsController < ApplicationController
 
     request = Net::HTTP::Post.new(uri)
     request['Content-Type'] = 'application/json'
-    request['Authorization'] = TOKEN
+    request['Authorization'] = soloenvios_setting.token
     request.body = {
       "quotation": {
         "address_from": {
@@ -144,10 +141,18 @@ class QuotationsController < ApplicationController
 
     request = Net::HTTP::Get.new(uri)
     request['Content-Type'] = 'application/json'
-    request['Authorization'] = TOKEN
+    request['Authorization'] = soloenvios_setting.token
 
 
     response = http.request(request)
   end
 
+
+  def soloenvios_setting
+    soloenvios_setting ||= current_user.settings.find_by_app_name("Soloenvios")
+  end
+
+  def verify_token
+    FetchVerifyTokenLifeJob.perform_later(soloenvios_setting.id)
+  end
 end

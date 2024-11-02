@@ -12,10 +12,48 @@
   </head>
 
   <body>
-    <div class="container-fluid ms-4">
-      <%# <p class="notice"><%= notice %></p>
-      <%# <p class="alert"><%= alert %></p>
-      <%= yield %>
+    <div class="container mt-3">
+      <div class="row">
+        <div class="col-10">
+          <%# <p class="notice"><%= notice %></p>
+          <%# <p class="alert"><%= alert %></p>
+          <%= yield %>
+        </div>
+        <div class="col-2">
+          <button type="button" class="btn" onclick="updateThemeToDark('dark')">Night Mode</button>
+          <button type="button" class="btn" onclick="updateThemeToLight('light')">Light Mode</button>
+        </div>
+      </div>
     </div>
   </body>
 </html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const theme = localStorage.getItem("theme");
+    if (theme == "dark") {
+      document.querySelector("html").setAttribute("data-bs-theme", "dark");
+    } else {
+      document.querySelector("html").setAttribute("data-bs-theme", "light");
+    }
+  });
+
+  function updateThemeToDark() {
+    localStorage.setItem("theme", "dark");
+    document.querySelector("html").setAttribute("data-bs-theme", "dark");
+    document.querySelectorAll('.btn-dark').forEach(button => {
+      button.classList.remove('btn-dark');
+      button.classList.add('btn-light');
+    });
+  }
+
+  function updateThemeToLight() {
+    localStorage.setItem("theme", "light");
+    document.querySelector("html").setAttribute("data-bs-theme", "light");
+    document.querySelectorAll('.btn-light').forEach(button => {
+      button.classList.remove('btn-light');
+      button.classList.add('btn-dark');
+    });
+  }
+</script>
+

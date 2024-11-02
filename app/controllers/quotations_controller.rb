@@ -1,13 +1,10 @@
 class QuotationsController < ApplicationController
-  before_action :authenticate_user!
-
   require 'net/http'
   require 'uri'
   require 'json'
 
-  before_action :verify_token
+  before_action :authenticate_user!
   before_action :soloenvios_setting
-
 
   def index
     @user = current_user
@@ -22,20 +19,20 @@ class QuotationsController < ApplicationController
   end
 
   def new
-    quotation_response = new_quotation(quotation_params)
-
-    # if quotation_response.code == "401"
-
-    if quotation_response.code == "422" ||  quotation_response.code == "400"
-      flash[:alert] = "Error generating quotation: #{response['errors'].map { |k, v| v.map { |error| "#{k}: #{error}" }.join(', ') }.join(', ')}"
-      redirect_to quotations_path
+    new_quotation_response = new_quotation(quotation_params)
+    if new_quotation_response.code == "401"
+      new_quotation_response = generate_token
     end
 
-    response = JSON.parse(quotation_response.body)
+    if ["422", "400"].include?(new_quotation_response.code)
+      quotation_errors(new_quotation_response.body)
+      redirect_to quotations_path and return
+    end
 
+    quotation = JSON.parse(new_quotation_response.body)
 
-    if response
-      quotation_id = response["id"]
+    if quotation
+      quotation_id = quotation["id"]
       flash[:notice] = "Quotation successfully generated."
       redirect_to quotation_path(current_user.id, quotation_id: quotation_id)
     else
@@ -141,18 +138,27 @@ class QuotationsController < ApplicationController
 
     request = Net::HTTP::Get.new(uri)
     request['Content-Type'] = 'application/json'
-    request['Authorization'] = soloenvios_setting.token
-
+    request['Authorization'] = "Bearer #{soloenvios_setting.token}"
 
     response = http.request(request)
   end
 
-
   def soloenvios_setting
-    soloenvios_setting ||= current_user.settings.find_by_app_name("Soloenvios")
+    @soloenvios_setting ||= current_user.settings.find_by_app_name("Soloenvios")
   end
 
   def verify_token
     FetchVerifyTokenLifeJob.perform_later(soloenvios_setting.id)
+  end
+
+  def generate_token
+    token_generator = TokenGeneratorService.new(@soloenvios_setting.api_key, @soloenvios_setting.secret_key)
+    @soloenvios_setting.update(token: token_generator.call.split.last)
+
+    new_quotation(quotation_params)
+  end
+
+  def quotation_errors(response)
+    flash[:alert] = "Error generating quotation: #{JSON.parse(response)['errors'].map { |k, v| v.map { |error| "#{k}: #{error}" }.join(', ') }.join(', ')}"
   end
 end
